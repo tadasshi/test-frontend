@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>FrontEnd Test</title>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="icon" type="image/png" href="./img/favicon.ico">
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="./js/app.js"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <!-- Content here -->
+            <div id="app">
+                <h3>Tasks Management</h3>
+                <div class="form-group">
+                    <input type="text" v-model="newTask" v-on:keyup.enter="addTask" class="form-control" placeholder="New Task" required minlength="3">
+                    <small class="form-text text-muted">Write down your task and press enter.</small>
+                </div>
+
+                <br>
+
+                <button type="button" class="btn btn-secondary float-right" aria-label="Close" v-on:click="cleanTasks()"
+                    type="button">
+                    Clean list
+                </button>
+
+                <h4>All your tasks</h4>
+                <br>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Status</th>
+                            <th>Update</th>
+                            <th>Mark as done</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(task, index) in tasks">
+                            <td><span>{{ task.text }}</span></td>
+                            <td>
+                                <span v-if="task.status">Done</span>
+                                <span v-else>Not Done</span>
+                            </td>
+                            <td><input v-on:keyup.enter="updateTask(index, $event)" class="form-control"></td>
+                            <td>
+                                <button v-if="!task.status" v-on:click="markAsDone(index)" type="button" class="btn btn-secondary"
+                                    data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+                                    Mark as Done
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="close red_b" aria-label="Close" v-on:click="removeTask(index)">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr v-if="tasks.length == 0">
+                            <td colspan="4">You have no task!</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </body>
+
+</html>
